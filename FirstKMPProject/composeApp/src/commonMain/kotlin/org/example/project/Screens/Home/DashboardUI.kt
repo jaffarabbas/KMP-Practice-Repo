@@ -11,8 +11,11 @@ import org.example.project.navigation.Routes
 
 @Composable
 fun DashboardUI(
+    click:() -> Unit,
 ){
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Dashbaord Page")
+        Text("Dashbaord Page", modifier = Modifier.clickable(){
+            click.invoke()
+        })
     }
 }

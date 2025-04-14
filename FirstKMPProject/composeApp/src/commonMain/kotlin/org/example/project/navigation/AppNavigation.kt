@@ -12,12 +12,13 @@ import org.example.project.Screens.Home.DashboardUI
 import org.example.project.Screens.Home.HomePageUI
 import org.example.project.Screens.Home.NotificationPageUI
 import org.example.project.Screens.Home.ProfilePageUI
+import org.example.project.UrlProvider
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(urlProvider: UrlProvider) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = SubGraph.Auth){
-        navigation<SubGraph.Auth>(startDestination = Routes.LoginPage){
+    NavHost(navController = navController, startDestination = SubGraph.Auth) {
+        navigation<SubGraph.Auth>(startDestination = Routes.LoginPage) {
             composable<Routes.LoginPage> {
                 LoginPageUI(
                     clickLogin = {
@@ -25,19 +26,20 @@ fun AppNavigation() {
                     }
                 )
             }
-            composable<Routes.SignUpPage>{
-                SignUpPageUI (
+            composable<Routes.SignUpPage> {
+                SignUpPageUI(
                     clickLogin = {
+                        // Provide default name when navigating to Home
                         navController.navigate(SubGraph.Home)
                     }
                 )
             }
         }
-        navigation<SubGraph.Home>(startDestination = Routes.Dashboard){
+        navigation<SubGraph.Home>(startDestination = Routes.Dashboard) {
             composable<Routes.HomePage> {
-                val homeData = it.toRoute<Routes.HomePage>();
-                HomePageUI(homeData = homeData) {
-                    navController.navigate(Routes.Profile){
+                val homeData = it.toRoute<Routes.HomePage>()
+                HomePageUI(homeData = homeData, urlHandler = urlProvider) {
+                    navController.navigate(Routes.Profile(name = homeData.name)) {
                         popUpTo(Routes.HomePage) {
                             inclusive = true
                         }
@@ -45,15 +47,22 @@ fun AppNavigation() {
                 }
             }
             composable<Routes.Dashboard> {
-                DashboardUI()
+                DashboardUI() {
+                    navController.navigate(Routes.Profile(name = "DashboardUser"))
+                }
             }
             composable<Routes.Notification> {
                 NotificationPageUI()
             }
             composable<Routes.Profile> {
-                val profileData = it.toRoute<Routes.Profile>();
+                val profileData = it.toRoute<Routes.Profile>()
                 ProfilePageUI(profileData = profileData) {
-                    navController.navigate(Routes.Profile)
+                    navController.navigate(Routes.HomePage(name = profileData.name)) {
+                        popUpTo(SubGraph.Home) {
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
                 }
             }
         }

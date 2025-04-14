@@ -16,11 +16,11 @@ sealed class Routes {
     object SignUpPage: Routes()
 
     @Serializable
-    data class HomePage(val name: String): Routes()
+    data class HomePage(val name: String? = null): Routes()
     @Serializable
     object Dashboard: Routes()
     @Serializable
     object Notification: Routes()
     @Serializable
-    data class Profile(val name: String): Routes()
+    data class Profile(val name: String? = null): Routes()
 }

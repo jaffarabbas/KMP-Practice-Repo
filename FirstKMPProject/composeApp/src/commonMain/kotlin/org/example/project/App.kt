@@ -24,20 +24,6 @@ import org.example.project.navigation.AppNavigation
 @Preview
 fun App(urlProvider:UrlProvider) {
     MaterialTheme {
-        AppNavigation()
-//        var urlHandler = LocalUriHandler.current;
-//        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-//            Button(onClick = {
-//                urlHandler.openUri(urlProvider.getUrl())
-//            }){
-//                Text("Click ME")
-//            }
-//            Button(onClick = {
-//                val notification = createNotification(NotificationType.TOAST)
-//                notification.show("Hello, World!")
-//            }){
-//                Text("Toaster")
-//            }
-//        }
+        AppNavigation(urlProvider)
     }
 }
